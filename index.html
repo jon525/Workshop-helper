@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Workshop Helper</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- Dashboard / Main Menu -->
+        <header id="main-header">
+            <h1>WORKSHOP HELPER</h1>
+        </header>
+
+        <main id="content">
+            <!-- Home Screen / Dashboard -->
+            <section id="home" class="view">
+                <div class="grid">
+                    <button class="tile" onclick="app.showView('decel')">
+                        <span class="icon">🛑</span>
+                        <span class="label">DECELERATION CALCULATOR</span>
+                    </button>
+                    <button class="tile" onclick="app.showView('torque')">
+                        <span class="icon">🔧</span>
+                        <span class="label">TORQUE CALCULATOR</span>
+                    </button>
+                    <button class="tile" onclick="app.showView('converter')">
+                        <span class="icon">🔄</span>
+                        <span class="label">CONVERTER</span>
+                    </button>
+                    <button class="tile" onclick="app.showView('twist')">
+                        <span class="icon">📐</span>
+                        <span class="label">TWIST TEST</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Unit Converter View -->
+            <section id="converter" class="view hidden">
+                <header class="view-header">
+                    <button class="back-btn" onclick="app.showView('home')">← BACK</button>
+                    <h2>CONVERTER</h2>
+                </header>
+
+                <div class="converter-group">
+                    <label>TORQUE (Nm ↔ ft-lb)</label>
+                    <div class="input-row">
+                        <input type="number" id="nm-input" placeholder="Nm">
+                        <span class="swap">⇄</span>
+                        <input type="number" id="ftlb-input" placeholder="ft-lb">
+                    </div>
+                </div>
+
+                <div class="converter-group">
+                    <label>PRESSURE (kPa ↔ PSI)</label>
+                    <div class="input-row">
+                        <input type="number" id="kpa-input" placeholder="kPa">
+                        <span class="swap">⇄</span>
+                        <input type="number" id="psi-input" placeholder="PSI">
+                    </div>
+                </div>
+
+                <div class="converter-group">
+                    <label>TEMP (°C ↔ °F)</label>
+                    <div class="input-row">
+                        <input type="number" id="c-input" placeholder="°C">
+                        <span class="swap">⇄</span>
+                        <input type="number" id="f-input" placeholder="°F">
+                    </div>
+                </div>
+
+                <div class="converter-group">
+                    <label>LENGTH (mm ↔ in)</label>
+                    <div class="input-row">
+                        <input type="number" id="mm-input" placeholder="mm">
+                        <span class="swap">⇄</span>
+                        <input type="number" id="in-input" placeholder="in">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Torque Calculator View -->
+            <section id="torque" class="view hidden">
+                <header class="view-header">
+                    <button class="back-btn" onclick="app.showView('home')">← BACK</button>
+                    <h2>TORQUE CALCULATOR</h2>
+                </header>
+
+                <div class="calc-group">
+                    <label>BOLT SIZE (Metric)</label>
+                    <select id="bolt-size" class="large-select">
+                        <option value="M6">M6</option>
+                        <option value="M8">M8</option>
+                        <option value="M10">M10</option>
+                        <option value="M12">M12</option>
+                        <option value="M14">M14</option>
+                        <option value="M16">M16</option>
+                        <option value="M18">M18</option>
+                        <option value="M20">M20</option>
+                        <option value="M22">M22</option>
+                        <option value="M24">M24</option>
+                    </select>
+
+                    <label>THREAD TYPE</label>
+                    <select id="bolt-thread" class="large-select">
+                        <option value="coarse">Coarse</option>
+                        <option value="fine">Fine Pitch</option>
+                    </select>
+
+                    <label>GRADE</label>
+                    <select id="bolt-grade" class="large-select">
+                        <option value="8.8">8.8</option>
+                        <option value="10.9">10.9</option>
+                        <option value="12.9">12.9</option>
+                    </select>
+
+                    <div id="torque-result" class="result-box">
+                        <div class="res-val">-- Nm</div>
+                        <div class="res-sub">Recommended Range</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Twist Test View -->
+            <section id="twist" class="view hidden">
+                <header class="view-header">
+                    <button class="back-btn" onclick="app.showView('home')">← BACK</button>
+                    <h2>TWIST TEST</h2>
+                </header>
+
+                <div class="calc-group">
+                    <label>WS</label>
+                    <input type="number" id="twist-ws" class="large-input">
+
+                    <label>WL</label>
+                    <input type="number" id="twist-wl" class="large-input">
+
+                    <div id="twist-result" class="result-box">
+                        <div class="res-val" id="twist-val">-- %</div>
+                        <div class="res-sub">Chassis Deviation</div>
+                    </div>
+
+                    <div class="formula-box">
+                        <label>FORMULA USED</label>
+                        <p>Deviation: <code>((Ws - Wl) / Ws) * 100</code></p>
+                    </div>
+
+                    <div class="math-box hidden" id="twist-math-container">
+                        <label>CALCULATION</label>
+                        <div id="twist-math" class="math-steps"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Average Deceleration Calculator View -->
+            <section id="decel" class="view hidden">
+                <header class="view-header">
+                    <button class="back-btn" onclick="app.showView('home')">← BACK</button>
+                    <h2>DECELERATION CALCULATOR</h2>
+                </header>
+
+                <div class="calc-group">
+                    <div class="input-grid">
+                        <div class="input-item">
+                            <label>INITIAL SPEED (km/h)</label>
+                            <input type="number" id="decel-v" placeholder="km/h" class="large-input">
+                        </div>
+
+                        <div class="input-item">
+                            <label>STOPPING DISTANCE (m)</label>
+                            <input type="number" id="decel-s" placeholder="metres" class="large-input">
+                        </div>
+
+                        <div class="input-item">
+                            <label>STOPPING TIME (s)</label>
+                            <input type="number" id="decel-t" placeholder="seconds" class="large-input">
+                        </div>
+                    </div>
+
+                    <div id="decel-warning" class="warning-box hidden">
+                        ⚠ Inputs inconsistent for constant deceleration (>1% diff).
+                    </div>
+
+                    <div class="result-box prominent">
+                        <div class="res-sub">AVERAGE DECELERATION</div>
+                        <div class="res-val" id="res-a-avg">-- m/s²</div>
+                    </div>
+
+                    <div class="engineering-results">
+                        <div class="res-row">
+                            <span class="res-label">Time-based (v/t)</span>
+                            <span class="res-value" id="res-a-time">--</span>
+                        </div>
+                        <div class="res-row">
+                            <span class="res-label">Dist-based (v²/2s)</span>
+                            <span class="res-value" id="res-a-dist">--</span>
+                        </div>
+                        <div class="res-row">
+                            <span class="res-label">Distance from Time</span>
+                            <span class="res-value" id="res-s-implied">--</span>
+                        </div>
+                        <div class="res-row">
+                            <span class="res-label">Time from Distance</span>
+                            <span class="res-value" id="res-t-implied">--</span>
+                        </div>
+                    </div>
+
+                    <div class="engineering-note">
+                        Calculates mean of time-based and distance-based deceleration.
+                    </div>
+                </div>
+            </section>
+
+            <!-- Job Notes View -->
+            <section id="notes" class="view hidden">
+                <header class="view-header">
+                    <button class="back-btn" onclick="app.showView('home')">← BACK</button>
+                    <h2>JOB NOTES</h2>
+                </header>
+                <textarea id="notes-area" placeholder="Write job notes here... auto-saves."></textarea>
+                <div id="save-status">Saved</div>
+            </section>
+
+        </main>
+    </div>
+    <script src="physics.js"></script>
+    <script src="ui_decel.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>
