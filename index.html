@@ -1,234 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Workshop Helper</title>
+    <title>Workshop Helper | Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
-    <div id="app">
-        <!-- Dashboard / Main Menu -->
-        <header id="main-header">
-            <h1>WORKSHOP HELPER</h1>
-        </header>
+    <div id="app" class="app-container">
+        <!-- Main Navigation -->
+        <nav id="sidebar" class="sidebar">
+            <div class="logo">
+                <span class="icon">🛠️</span>
+                <span class="text">WORKSHOP HELPER</span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item active" onclick="app.showView('home')">
+                    <span class="nav-icon">🏠</span>
+                    <span class="nav-label">Dashboard</span>
+                </li>
+                <li class="nav-item" onclick="app.showView('decel')">
+                    <span class="nav-icon">🛑</span>
+                    <span class="nav-label">Brake Test</span>
+                </li>
+                <li class="nav-item" onclick="app.showView('twist')">
+                    <span class="nav-icon">📐</span>
+                    <span class="nav-label">Twist Test</span>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="status">SYSTEM ACTIVE</div>
+            </div>
+        </nav>
 
-        <main id="content">
-            <!-- Home Screen / Dashboard -->
+        <main id="content" class="content-area">
+            <!-- Dashboard / Home Screen -->
             <section id="home" class="view">
-                <div class="grid">
-                    <button class="tile" onclick="app.showView('decel')">
-                        <span class="icon">🛑</span>
-                        <span class="label">DECELERATION CALCULATOR</span>
-                    </button>
-                    <button class="tile" onclick="app.showView('torque')">
-                        <span class="icon">🔧</span>
-                        <span class="label">TORQUE CALCULATOR</span>
-                    </button>
-                    <button class="tile" onclick="app.showView('converter')">
-                        <span class="icon">🔄</span>
-                        <span class="label">CONVERTER</span>
-                    </button>
-                    <button class="tile" onclick="app.showView('twist')">
-                        <span class="icon">📐</span>
-                        <span class="label">TWIST TEST</span>
-                    </button>
-                </div>
-            </section>
-
-            <!-- Unit Converter View -->
-            <section id="converter" class="view hidden">
-                <header class="view-header">
-                    <button class="back-btn" onclick="app.showView('home')">← BACK</button>
-                    <h2>CONVERTER</h2>
+                <header class="section-header">
+                    <h1>DASHBOARD</h1>
+                    <p>Select a diagnostic tool to begin.</p>
                 </header>
-
-                <div class="converter-group">
-                    <label>TORQUE (Nm ↔ ft-lb)</label>
-                    <div class="input-row">
-                        <input type="number" id="nm-input" placeholder="Nm">
-                        <span class="swap">⇄</span>
-                        <input type="number" id="ftlb-input" placeholder="ft-lb">
+                
+                <div class="hero-grid">
+                    <div class="hero-card primary" onclick="app.showView('decel')">
+                        <div class="card-content">
+                            <span class="icon large">🛑</span>
+                            <h3>BRAKE TEST</h3>
+                            <p>Calculate deceleration based on stopping time.</p>
+                        </div>
+                        <div class="card-action">START TEST →</div>
+                    </div>
+                    
+                    <div class="hero-card secondary" onclick="app.showView('twist')">
+                        <div class="card-content">
+                            <span class="icon large">📐</span>
+                            <h3>TWIST TEST</h3>
+                            <p>Analyze chassis deviation (WS vs WL).</p>
+                        </div>
+                        <div class="card-action">START TEST →</div>
                     </div>
                 </div>
 
-                <div class="converter-group">
-                    <label>PRESSURE (kPa ↔ PSI)</label>
-                    <div class="input-row">
-                        <input type="number" id="kpa-input" placeholder="kPa">
-                        <span class="swap">⇄</span>
-                        <input type="number" id="psi-input" placeholder="PSI">
+                <div class="quick-info">
+                    <div class="info-box">
+                        <span class="info-label">Current Unit</span>
+                        <span class="info-value">Metric (km/h, m/s²)</span>
                     </div>
-                </div>
-
-                <div class="converter-group">
-                    <label>TEMP (°C ↔ °F)</label>
-                    <div class="input-row">
-                        <input type="number" id="c-input" placeholder="°C">
-                        <span class="swap">⇄</span>
-                        <input type="number" id="f-input" placeholder="°F">
-                    </div>
-                </div>
-
-                <div class="converter-group">
-                    <label>LENGTH (mm ↔ in)</label>
-                    <div class="input-row">
-                        <input type="number" id="mm-input" placeholder="mm">
-                        <span class="swap">⇄</span>
-                        <input type="number" id="in-input" placeholder="in">
+                    <div class="info-box">
+                        <span class="info-label">Accuracy</span>
+                        <span class="info-value">±0.01%</span>
                     </div>
                 </div>
             </section>
 
-            <!-- Torque Calculator View -->
-            <section id="torque" class="view hidden">
-                <header class="view-header">
-                    <button class="back-btn" onclick="app.showView('home')">← BACK</button>
-                    <h2>TORQUE CALCULATOR</h2>
+            <!-- Brake Test View -->
+            <section id="decel" class="view hidden">
+                <header class="section-header">
+                    <div class="breadcrumb">
+                        <button onclick="app.showView('home')" class="btn-text">← Dashboard</button>
+                    </div>
+                    <h1>BRAKE TEST</h1>
+                    <p>Calculate average deceleration from speed and time.</p>
                 </header>
 
-                <div class="calc-group">
-                    <label>BOLT SIZE (Metric)</label>
-                    <select id="bolt-size" class="large-select">
-                        <option value="M6">M6</option>
-                        <option value="M8">M8</option>
-                        <option value="M10">M10</option>
-                        <option value="M12">M12</option>
-                        <option value="M14">M14</option>
-                        <option value="M16">M16</option>
-                        <option value="M18">M18</option>
-                        <option value="M20">M20</option>
-                        <option value="M22">M22</option>
-                        <option value="M24">M24</option>
-                    </select>
+                <div class="calculator-layout">
+                    <div class="input-panel card glass">
+                        <div class="input-field">
+                            <label for="decel-v">INITIAL SPEED (km/h)</label>
+                            <input type="number" id="decel-v" placeholder="e.g., 60" class="premium-input">
+                        </div>
 
-                    <label>THREAD TYPE</label>
-                    <select id="bolt-thread" class="large-select">
-                        <option value="coarse">Coarse</option>
-                        <option value="fine">Fine Pitch</option>
-                    </select>
+                        <div class="input-field">
+                            <label for="decel-t">STOPPING TIME (s)</label>
+                            <input type="number" id="decel-t" placeholder="e.g., 3.2" class="premium-input">
+                        </div>
+                    </div>
 
-                    <label>GRADE</label>
-                    <select id="bolt-grade" class="large-select">
-                        <option value="8.8">8.8</option>
-                        <option value="10.9">10.9</option>
-                        <option value="12.9">12.9</option>
-                    </select>
-
-                    <div id="torque-result" class="result-box">
-                        <div class="res-val">-- Nm</div>
-                        <div class="res-sub">Recommended Range</div>
+                    <div class="result-panel card glass accent">
+                        <div class="result-header">
+                            <span>RESULT</span>
+                            <span class="badge">PRO</span>
+                        </div>
+                        <div class="result-display">
+                            <div class="main-res" id="res-a-time">0.00</div>
+                            <div class="main-unit">m/s²</div>
+                        </div>
+                        <div class="sub-results">
+                            <div class="sub-item">
+                                <span class="sub-label">G-FORCE</span>
+                                <span class="sub-val" id="res-g-force">0.00 G</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- Twist Test View -->
             <section id="twist" class="view hidden">
-                <header class="view-header">
-                    <button class="back-btn" onclick="app.showView('home')">← BACK</button>
-                    <h2>TWIST TEST</h2>
+                <header class="section-header">
+                    <div class="breadcrumb">
+                        <button onclick="app.showView('home')" class="btn-text">← Dashboard</button>
+                    </div>
+                    <h1>TWIST TEST</h1>
+                    <p>Chassis deviation between left and right wheelbase.</p>
                 </header>
 
-                <div class="calc-group">
-                    <label>WS</label>
-                    <input type="number" id="twist-ws" class="large-input">
+                <div class="calculator-layout">
+                    <div class="input-panel card glass">
+                        <div class="input-field">
+                            <label for="twist-ws">WS (Shortest Side)</label>
+                            <input type="number" id="twist-ws" placeholder="cm/mm" class="premium-input">
+                        </div>
 
-                    <label>WL</label>
-                    <input type="number" id="twist-wl" class="large-input">
-
-                    <div id="twist-result" class="result-box">
-                        <div class="res-val" id="twist-val">-- %</div>
-                        <div class="res-sub">Chassis Deviation</div>
+                        <div class="input-field">
+                            <label for="twist-wl">WL (Longest Side)</label>
+                            <input type="number" id="twist-wl" placeholder="cm/mm" class="premium-input">
+                        </div>
                     </div>
 
-                    <div class="formula-box">
-                        <label>FORMULA USED</label>
-                        <p>Deviation: <code>((Ws - Wl) / Ws) * 100</code></p>
-                    </div>
-
-                    <div class="math-box hidden" id="twist-math-container">
-                        <label>CALCULATION</label>
-                        <div id="twist-math" class="math-steps"></div>
+                    <div class="result-panel card glass accent-alt">
+                        <div class="result-header">
+                            <span>DEVIATION</span>
+                            <span class="badge" id="twist-status">STABLE</span>
+                        </div>
+                        <div class="result-display">
+                            <div class="main-res" id="twist-val">0.00</div>
+                            <div class="main-unit">%</div>
+                        </div>
+                        <div class="formula-info">
+                            Deviation: ((Ws - Wl) / Ws) * 100
+                        </div>
                     </div>
                 </div>
             </section>
-
-            <!-- Average Deceleration Calculator View -->
-            <section id="decel" class="view hidden">
-                <header class="view-header">
-                    <button class="back-btn" onclick="app.showView('home')">← BACK</button>
-                    <h2>DECELERATION CALCULATOR</h2>
-                </header>
-
-                <div class="calc-group">
-                    <div class="input-grid">
-                        <div class="input-item">
-                            <label>INITIAL SPEED (km/h)</label>
-                            <input type="number" id="decel-v" placeholder="km/h" class="large-input">
-                        </div>
-
-                        <div class="input-item">
-                            <label>STOPPING DISTANCE (m)</label>
-                            <input type="number" id="decel-s" placeholder="metres" class="large-input">
-                        </div>
-
-                        <div class="input-item">
-                            <label>STOPPING TIME (s)</label>
-                            <input type="number" id="decel-t" placeholder="seconds" class="large-input">
-                        </div>
-                    </div>
-
-                    <div id="decel-warning" class="warning-box hidden">
-                        ⚠ Inputs inconsistent for constant deceleration (>1% diff).
-                    </div>
-
-                    <div class="result-box prominent">
-                        <div class="res-sub">AVERAGE DECELERATION</div>
-                        <div class="res-val" id="res-a-avg">-- m/s²</div>
-                    </div>
-
-                    <div class="engineering-results">
-                        <div class="res-row">
-                            <span class="res-label">Time-based (v/t)</span>
-                            <span class="res-value" id="res-a-time">--</span>
-                        </div>
-                        <div class="res-row">
-                            <span class="res-label">Dist-based (v²/2s)</span>
-                            <span class="res-value" id="res-a-dist">--</span>
-                        </div>
-                        <div class="res-row">
-                            <span class="res-label">Distance from Time</span>
-                            <span class="res-value" id="res-s-implied">--</span>
-                        </div>
-                        <div class="res-row">
-                            <span class="res-label">Time from Distance</span>
-                            <span class="res-value" id="res-t-implied">--</span>
-                        </div>
-                    </div>
-
-                    <div class="engineering-note">
-                        Calculates mean of time-based and distance-based deceleration.
-                    </div>
-                </div>
-            </section>
-
-            <!-- Job Notes View -->
-            <section id="notes" class="view hidden">
-                <header class="view-header">
-                    <button class="back-btn" onclick="app.showView('home')">← BACK</button>
-                    <h2>JOB NOTES</h2>
-                </header>
-                <textarea id="notes-area" placeholder="Write job notes here... auto-saves."></textarea>
-                <div id="save-status">Saved</div>
-            </section>
-
         </main>
     </div>
+
+    <!-- Scripts -->
     <script src="physics.js"></script>
     <script src="ui_decel.js"></script>
     <script src="app.js"></script>
 </body>
-
 </html>

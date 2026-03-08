@@ -1,5 +1,7 @@
 /**
- * UI Controller for Average Deceleration Calculator
+ * UI Controller for Brake Test (Deceleration Calculator)
+ * 
+ * Focus: Only time-based formula (a = v / t).
  */
 
 const DecelUI = {
@@ -10,58 +12,44 @@ const DecelUI = {
 
     cacheDOM() {
         this.vInput = document.getElementById('decel-v');
-        this.sInput = document.getElementById('decel-s');
         this.tInput = document.getElementById('decel-t');
 
-        this.resAvg = document.getElementById('res-a-avg');
         this.resTime = document.getElementById('res-a-time');
-        this.resDist = document.getElementById('res-a-dist');
-        this.resSImplied = document.getElementById('res-s-implied');
-        this.resTImplied = document.getElementById('res-t-implied');
-
-        this.warning = document.getElementById('decel-warning');
+        this.resGForce = document.getElementById('res-g-force');
     },
 
     attachEvents() {
-        [this.vInput, this.sInput, this.tInput].forEach(el => {
+        if (!this.vInput || !this.tInput) return;
+
+        [this.vInput, this.tInput].forEach(el => {
             el.addEventListener('input', () => this.calculate());
         });
     },
 
     calculate() {
-        const vKmh = parseFloat(this.vInput.value) || 0;
-        const s = parseFloat(this.sInput.value) || 0;
-        const t = parseFloat(this.tInput.value) || 0;
+        const vKmh = parseFloat(this.vInput.value);
+        const t = parseFloat(this.tInput.value);
 
-        const v = Physics.kmhToMs(vKmh);
-        const result = Physics.calculateDecel(v, s, t);
+        if (isNaN(vKmh) || isNaN(t) || t <= 0 || vKmh <= 0) {
+            this.clearResults();
+            return;
+        }
+
+        // Logic using our simplified physics module
+        const result = Physics.calculateDecel(vKmh, t);
 
         if (!result) {
             this.clearResults();
             return;
         }
 
-        // Main Displays
-        this.resAvg.innerText = `${result.a_avg.toFixed(2)} m/s²`;
-        this.resTime.innerText = `${result.a_time.toFixed(2)} m/s²`;
-        this.resDist.innerText = `${result.a_dist.toFixed(2)} m/s²`;
-        this.resSImplied.innerText = `${result.s_from_time.toFixed(2)} m`;
-        this.resTImplied.innerText = `${result.t_from_dist.toFixed(2)} s`;
-
-        // Warning Logic
-        if (result.diff > 1) {
-            this.warning.classList.remove('hidden');
-        } else {
-            this.warning.classList.add('hidden');
-        }
+        // Update Results with Formatting
+        this.resTime.innerText = result.a_time.toFixed(2);
+        this.resGForce.innerText = `${result.g_force.toFixed(3)} G`;
     },
 
     clearResults() {
-        this.resAvg.innerText = "-- m/s²";
-        this.resTime.innerText = "--";
-        this.resDist.innerText = "--";
-        this.resSImplied.innerText = "--";
-        this.resTImplied.innerText = "--";
-        this.warning.classList.add('hidden');
+        if (this.resTime) this.resTime.innerText = "0.00";
+        if (this.resGForce) this.resGForce.innerText = "0.000 G";
     }
 };
