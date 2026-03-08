@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Workshop Helper | Pro</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <div id="app" class="app-container">
         <!-- Main Navigation -->
@@ -43,7 +47,7 @@
                     <h1>DASHBOARD</h1>
                     <p>Select a diagnostic tool to begin.</p>
                 </header>
-                
+
                 <div class="hero-grid">
                     <div class="hero-card primary" onclick="app.showView('decel')">
                         <div class="card-content">
@@ -53,7 +57,7 @@
                         </div>
                         <div class="card-action">START TEST →</div>
                     </div>
-                    
+
                     <div class="hero-card secondary" onclick="app.showView('twist')">
                         <div class="card-content">
                             <span class="icon large">📐</span>
@@ -159,9 +163,26 @@
         </main>
     </div>
 
+    <!-- Mobile Navigation -->
+    <div class="mobile-nav">
+        <a href="#" class="mobile-nav-item active" onclick="app.showView('home')">
+            <span>🏠</span>
+            <span>Home</span>
+        </a>
+        <a href="#" class="mobile-nav-item" onclick="app.showView('decel')">
+            <span>🛑</span>
+            <span>Brake</span>
+        </a>
+        <a href="#" class="mobile-nav-item" onclick="app.showView('twist')">
+            <span>📐</span>
+            <span>Twist</span>
+        </a>
+    </div>
+
     <!-- Scripts -->
     <script src="physics.js"></script>
     <script src="ui_decel.js"></script>
     <script src="app.js"></script>
 </body>
+
 </html>

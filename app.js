@@ -13,24 +13,28 @@ const app = {
     showView(viewId) {
         if (this.currentView === viewId) return;
 
-        // Update nav items
+        // Sync Desktop Nav
         document.querySelectorAll('.nav-item').forEach(item => {
             const label = item.querySelector('.nav-label').textContent.toLowerCase();
-            const target = viewId === 'home' ? 'dashboard' : viewId.replace('decel', 'brake').replace('twist', 'twist');
-
-            if (label.includes(target) || (viewId === 'home' && label.includes('dashboard'))) {
-                item.classList.add('active');
-            } else {
-                item.classList.remove('active');
-            }
+            const isMatch = (viewId === 'home' && label.includes('dashboard')) ||
+                (viewId === 'decel' && label.includes('brake')) ||
+                (viewId === 'twist' && label.includes('twist'));
+            item.classList.toggle('active', isMatch);
         });
 
-        // Toggle views with a small delay for smoother feel if needed
+        // Sync Mobile Nav
+        document.querySelectorAll('.mobile-nav-item').forEach(item => {
+            const label = item.innerText.toLowerCase();
+            const isMatch = (viewId === 'home' && label.includes('home')) ||
+                (viewId === 'decel' && label.includes('brake')) ||
+                (viewId === 'twist' && label.includes('twist'));
+            item.classList.toggle('active', isMatch);
+        });
+
+        // Switch visible view
         document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
         const targetView = document.getElementById(viewId);
-        if (targetView) {
-            targetView.classList.remove('hidden');
-        }
+        if (targetView) targetView.classList.remove('hidden');
 
         this.currentView = viewId;
         window.scrollTo(0, 0);
