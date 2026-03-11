@@ -207,9 +207,9 @@ body {
 /* --- Dashboard Grid --- */
 .hero-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
 }
 
 .hero-card {
@@ -287,10 +287,25 @@ body {
     color: var(--text-primary);
 }
 
+@media (max-width: 768px) {
+    .card-action {
+        margin-top: 1.5rem;
+        font-size: 0.85rem;
+    }
+}
+
 /* --- QUICK INFO (Dashboard Bottom) --- */
 .quick-info {
     display: flex;
     gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 600px) {
+    .quick-info {
+        flex-direction: column;
+        gap: 1rem;
+    }
 }
 
 .info-box {
@@ -323,6 +338,13 @@ body {
     align-items: start;
 }
 
+@media (max-width: 900px) {
+    .calculator-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+}
+
 .card.glass {
     background: var(--bg-card);
     backdrop-filter: blur(10px);
@@ -335,6 +357,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+}
+
+@media (max-width: 768px) {
+    .input-panel {
+        gap: 1.5rem;
+    }
 }
 
 .input-field {
@@ -377,6 +405,14 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 380px;
+}
+
+@media (max-width: 900px) {
+    .result-panel {
+        position: relative;
+        top: 0;
+        min-height: auto;
+    }
 }
 
 .result-header {
@@ -424,7 +460,22 @@ body {
     }
 
     .calculator-layout {
-        gap: 1rem;
+        gap: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-res {
+        font-size: 3.2rem;
+    }
+    
+    .premium-input {
+        font-size: 1.25rem;
+        padding: 1rem;
+    }
+    
+    .section-header h1 {
+        font-size: 1.5rem;
     }
 }
 
@@ -481,9 +532,18 @@ body {
     color: var(--accent-blue);
     font-weight: 600;
     cursor: pointer;
-    padding: 0;
+    padding: 0.5rem 0;
     font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
     transition: opacity 0.2s;
+}
+
+@media (max-width: 768px) {
+    .btn-text {
+        font-size: 1.1rem;
+        padding: 0.75rem 0;
+    }
 }
 
 .btn-text:hover {
